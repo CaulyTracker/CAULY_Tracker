@@ -225,8 +225,8 @@ caulyTracker.traceDeepLink(deepLinkStr);
 | -------- | ----- | --------- |
 | OPEN | - 리타겟팅 광고 노출 대상자 선정 | [OPEN 이벤트](#open-이벤트) |
 | PRODUCT | - 광고노출 대상자 별 추천 상품목록 생성 | [상품 VIEW 이벤트](#상품-view-이벤트) |
-| CART | - 광고노출 대상자 별 추천 상품목록 생성(option)  | [장바구니 이벤트](#장바구니 이벤트) |
-| SEARCH | - 사용자의 검색어 (option) | [검색 이벤트](#검색 이벤트) |
+| CART | - 광고노출 대상자 별 추천 상품목록 생성(option)  | [장바구니 이벤트](#장바구니-이벤트) |
+| SEARCH | - 사용자의 검색어 (option) | [검색 이벤트](#검색-이벤트) |
 | CONTENT | - 상품이미지 및 상품 상세정보를 광고 소재로 활용 | [ContentView 이벤트](#contentview-이벤트) |
 | PURCHASE | - 추천상품에서 구매상품 제외 처리 <br>- ROAS 측정 | [PURCHASE 이벤트](#purchase-이벤트) |
 | RE-PURCHASE | - 재구매율 측정 (option) | [RE-PURCHASE 이벤트](#re-purchase-이벤트) |
