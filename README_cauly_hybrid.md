@@ -123,6 +123,7 @@ if(window.caulyJSInterface.platform() == 'Android'){
 
 ##### Get Google Advertising ID
 Android Play service에서 제공하는 Google Advertising ID를 얻습니다.
+
 ###### sample
 테스트 웹페이지에 SDK를 통해 얻은 gaid를 출력합니다.
 ```html
