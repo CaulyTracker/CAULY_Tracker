@@ -46,7 +46,7 @@ CaulyTracker Web SDK ( javascript version ) 을 사용는 Hybrid의 앱의 경�
 Webview web = new WebView(getApplicationContext());
 web.addJavascriptInterface(new CaulyJsInterface(web),CaulyJsInterface.CAULY_JS_INTERFACE_NAME);
 ```
-
+
 UIWebView를 사용하는 Hybrid App이 아닌 일반 브라우저에서 접근가능한 Web의 경우에는 해당 메시지를 호출하지않도록 조치를 해주어야 합니다.
 
 --------------
