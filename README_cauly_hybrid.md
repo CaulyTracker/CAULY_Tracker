@@ -69,6 +69,9 @@ protected void onCreate(Bundle savedInstanceState) {
 	testWebview = (WebView) findViewById(R.id.testWebview);
 
 	testWebview.getSettings().setJavaScriptEnabled(true);
+	testWebview.getSettings().setDomStorageEnabled(true);
+	testWebview.getSettings().setSupportMultipleWindows(true);
+	
 	testWebview.setWebChromeClient(new WebChromeClient() {
 		@Override
 		public boolean onJsAlert(final WebView view, final String url, final String message, JsResult result) {
@@ -77,8 +80,79 @@ protected void onCreate(Bundle savedInstanceState) {
 			result.confirm();
 			return true;
 		}
+		 // 새창열기시, 외부브라우져로 호출
+		 @Override
+		 public boolean onCreateWindow(WebView view, boolean isDialog,  boolean isUserGesture, Message resultMsg) {
+		    	try{
+				if(isUserGesture){
+					 WebView newWebView = new WebView(view.getContext());
+					    view.addView(newWebView);
+					    WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
+					    transport.setWebView(newWebView);
+					    resultMsg.sendToTarget();
+					    newWebView.setWebViewClient(new WebViewClient() {
+						@Override
+						public boolean shouldOverrideUrlLoading(WebView view, String url) {
+							 Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+						      browserIntent.setData(Uri.parse(url));
+						      startActivity(browserIntent);
+							return true;
+						}
+					    });
+				}
+			} catch (Exception e) {
+			}
+		        return true;
+		    }
 	});
-	testWebview.setWebViewClient(new WebViewClient());
+	testWebview.setWebViewClient(new WebViewClient(){
+        	@Override
+    		public boolean shouldOverrideUrlLoading(WebView view, String url) {
+    			   if ( view == null || url == null) {
+    	                // 처리하지 못함
+    	                return false;
+    	            }
+
+    	            if ( url.contains("play.google.com") ) {
+    	              // play.google.com 도메인이면서 App 링크인 경우에는 market:// 로 변경
+    	              String[] params = url.split("details");
+    	              if ( params.length > 1 ) {
+    	                  url = "market://details" + params[1];
+    	                  view.getContext().startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(url) ));
+    	                  return true;
+    	              }
+    	            }
+
+    	            if ( url.startsWith("http:") || url.startsWith("https:") ) {
+    	                // HTTP/HTTPS 요청은 내부에서 처리한다.
+    	                view.loadUrl(url);
+    	            } else {
+    	                Intent intent;
+
+    	                try {
+    	                    intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
+    	                } catch (URISyntaxException e) {
+    	                    // 처리하지 못함
+    	                    return false;
+    	                }
+
+    	                try {
+    	                    view.getContext().startActivity(intent);
+    	                } catch (ActivityNotFoundException e) {
+    	                    // Intent Scheme인 경우, 앱이 설치되어 있지 않으면 Market으로 연결
+    	                    if ( url.startsWith("intent:") && intent.getPackage() != null) {
+    	                        url = "market://details?id=" + intent.getPackage();
+    	                        view.getContext().startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(url) ));
+    	                        return true;
+    	                    } else {
+    	                        // 처리하지 못함
+    	                        return false;
+    	                    }
+    	                }
+    	            }
+    	            return true;
+    		}
+        });
 	testWebview.clearCache(true);
 	testWebview.loadUrl("http://[TESTURL]/test.html?t="+System.currentTimeMillis());
 	testWebview.addJavascriptInterface(new CaulyJsInterface(testWebview),CaulyJsInterface.CAULY_JS_INTERFACE_NAME);
