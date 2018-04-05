@@ -34,6 +34,41 @@ Proguard 적용시에는 SDK에 적용되지 않도록 아래 설정을 추가
 -keep class com.fsn.cauly.tracker.** { *; }
 ```
 
+##### Initialize
+AndroidManifest.xml 내에 meta data 태그로 발급받은 appcode를 입력합니다. 
+예시의 '[CAULY_TRACK_CODE]'부분을 변경합니다. ( [] 기호는 불필요 )
+```xml
+<application
+...
+ <meta-data
+	android:name="cauly_track_code"
+	android:value="[CAULY_TRACK_CODE]" />
+
+...
+</application>
+```
+
+##### Session
+Tracking을 시작하는 시점과 종료하는 시점에 호출. CaulyTrackerBuilder를 통해 tracker instance를 초기화 하는 단계에서 ‘start’를 호출하는 것이 권장됩니다.
+
+###### sample
+startSession
+```java
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.activity_main);
+
+	CaulyTrackerBuilder caulyTrackerBuilder = new CaulyTrackerBuilder(getApplicationContext());
+
+	CaulyTracker caulyTracker = caulyTrackerBuilder.setUserId("customer_id_0922451")
+			.setAge("25")
+			.setGender(TrackerConst.FEMALE)
+			.setLogLevel(LogLevel.Debug)
+			.build();
+	caulyTracker.startSession();
+}
+```
 
 #### Reference
 
