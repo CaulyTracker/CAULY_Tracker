@@ -1,7 +1,7 @@
 Cauly 리타겟팅 연동 가이드
 =========================
 Android Native APP
---------------------------
+-------------------------- 
 ### 개요
 네이티브 앱은 Java 로 작성된 일반적인 Android 앱을 지칭합니다. 본 문서는 광고주의 앱이 네이티브 앱일 경우 리타겟팅 연동을 하는 방법에 대해서 설명하는 문서입니다. 컨텐츠 제공에 Webview 를 주로 사용한다면 [Android Hybrid APP](https://github.com/CaulyTracker/Android-Tracking-SDK-Hybrid) 문서를 참고해주세요. 
 
